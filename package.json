@@ -1,0 +1,14 @@
+{
+  "name": "20150814_DKurochkin",
+  "version": "0.0.0",
+  "description": "```bash mkvirtualenv flask pip install -r requirments.txt ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dmitriy Kurochkin",
+  "license": "unlicense",
+  "dependencies": {
+    "bower": "~1.4.1"
+  }
+}
