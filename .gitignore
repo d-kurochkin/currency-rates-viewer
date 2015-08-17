@@ -55,3 +55,10 @@ docs/_build/
 
 # PyBuilder
 target/
+
+
+# Jetbrains project dir
+idea
+
+# Bower dependencies
+static/components
