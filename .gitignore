@@ -62,3 +62,6 @@ idea
 
 # Bower dependencies
 static/components
+
+# Node.js dependencies
+node_modules
