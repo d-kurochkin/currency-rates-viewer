@@ -6,11 +6,13 @@ def currency_pairs(base):
     if base not in currencies():
         raise ValueError("Unavailable currency")
 
-    return ["'%s%s'" % (base, quote) for quote in currencies()]
+    return ["'%s%s'" % (base, quote) for quote in currencies() if quote != base]
 
 
 def build_query(currency):
-    pass
+    pairs = currency_pairs(currency)
+
+    return "select * from yahoo.finance.xchange where pair in (%s)" % ", ".join(pairs)
 
 
 def get_ratios(currency):
