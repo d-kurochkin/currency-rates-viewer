@@ -1,6 +1,9 @@
 from flask import Flask, redirect, url_for
 import json
+
 app = Flask(__name__)
+
+CURRENCIES = ['AUD', 'CAD', 'CHF', 'CNY', 'EUR', 'GBP', 'GPY', 'KZT', 'RUB', 'UAH', 'USD']
 
 CURRENCY_RATION = {
     "USD": {"BMD": 10, "SZL": 10},
@@ -21,6 +24,7 @@ def ratio(currency):
     except KeyError, e:
         abort(400)
         # @todo: log it
+
 
 if __name__ == "__main__":
     app.run(debug=True)
