@@ -58,7 +58,7 @@ target/
 
 
 # Jetbrains project dir
-idea
+.idea
 
 # Bower dependencies
 static/components
