@@ -12,5 +12,8 @@ class TestXchange(TestCase):
 
         self.assertEqual(pairs, result)
 
+    def test_build_query(self):
+        self.fail()
+
     def test_get_ratio_unknown(self):
         self.assertRaises(ValueError, xchange.get_ratios, "DS")
