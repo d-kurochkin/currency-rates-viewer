@@ -1,9 +1,10 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, abort
 import json
 
 app = Flask(__name__)
 
-CURRENCIES = ['AUD', 'CAD', 'CHF', 'CNY', 'EUR', 'GBP', 'GPY', 'KZT', 'RUB', 'UAH', 'USD']
+CURRENCIES = ['AUD', 'CAD', 'CHF', 'CNY', 'EUR', 'GBP',
+              'GPY', 'KZT', 'RUB', 'UAH', 'USD']
 
 CURRENCY_RATION = {
     "USD": {"BMD": 10, "SZL": 10},
