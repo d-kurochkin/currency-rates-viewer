@@ -1,9 +1,8 @@
 def currencies():
-    return ['AUD', 'CAD', 'CHF', 'CNY', 'EUR', 'GBP',
-            'GPY', 'KZT', 'RUB', 'UAH', 'USD']
+    return ['EUR', 'GPY', 'KZT', 'RUB', 'UAH', 'USD']
 
 
-def get_pairs(base):
+def currency_pairs(base):
     if base not in currencies():
         raise ValueError("Unavailable currency")
 
