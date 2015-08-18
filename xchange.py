@@ -3,11 +3,11 @@ def currencies():
             'GPY', 'KZT', 'RUB', 'UAH', 'USD']
 
 
-def get_pairs(currency):
-    if currency not in currencies():
+def get_pairs(base):
+    if base not in currencies():
         raise ValueError("Unavailable currency")
 
-    pass
+    return ["'%s%s'" % (base, quote) for quote in currencies()]
 
 
 def get_ratios(currency):

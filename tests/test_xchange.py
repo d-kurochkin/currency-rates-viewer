@@ -8,7 +8,7 @@ class TestXchange(TestCase):
 
     def test_get_pairs_USD(self):
         pairs = ["'USDAUD'", "'USDCAD'", "'USDCHF'", "'USDCNY'", "'USDEUR'",
-                 'USDGBP', "'USDGPY'", "'USDKZT'", "'USDRUB'", "'USDUAH'"]
+                 "'USDGBP'", "'USDGPY'", "'USDKZT'", "'USDRUB'", "'USDUAH'", "'USDUSD'"]
         result = xchange.get_pairs("USD")
 
         self.assertEqual(pairs, result)
