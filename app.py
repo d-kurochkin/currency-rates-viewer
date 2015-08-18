@@ -1,10 +1,8 @@
 import flask
 import json
+import xchange
 
 app = flask.Flask(__name__)
-
-CURRENCIES = ['AUD', 'CAD', 'CHF', 'CNY', 'EUR', 'GBP',
-              'GPY', 'KZT', 'RUB', 'UAH', 'USD']
 
 CURRENCY_RATION = {
     "USD": {"BMD": 10, "SZL": 10},
