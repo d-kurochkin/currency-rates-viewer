@@ -2,13 +2,10 @@ import flask
 from flask import jsonify
 import xchange
 
-app = flask.Flask(__name__)
+import logging
+from logging.handlers import TimedRotatingFileHandler
 
-CURRENCY_RATION = {
-    "USD": {"BMD": 10, "SZL": 10},
-    "BMD": {"USD": 9, "SZL": 9},
-    "SZL": {"BMD": 8, "USD": 8}
-}
+app = flask.Flask(__name__)
 
 
 @app.route("/")
@@ -24,11 +21,15 @@ def currencies():
 @app.route("/ratio/<currency>")
 def ratio(currency):
     try:
-        return jsonify({"ratio": xchange.get_rates(currency)})
-    except KeyError, e:
+        return jsonify({'ratio': xchange.get_rates(currency)})
+    except ValueError, e:
+        app.logger.error(e)
         flask.abort(400)
-        # @todo: log it
 
 
 if __name__ == "__main__":
+    handler = TimedRotatingFileHandler('app.log', backupCount=1, when='midnight')
+    formatter = logging.Formatter("%(asctime)s  %(levelname)s: %(message)s")
+    handler.setFormatter(formatter)
+    app.logger.addHandler(handler)
     app.run(debug=True)
