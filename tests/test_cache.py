@@ -1,3 +1,5 @@
+from random import random
+from time import sleep
 from unittest import TestCase
 from cache import Cached
 
@@ -18,3 +20,22 @@ class TestCache(TestCase):
             return 3
 
         self.assertEqual(3, test_fn())
+
+    def test_cache_value_storing(self):
+        @Cached()
+        def test_fn():
+            return random()
+
+        result = test_fn()
+        self.assertEqual(result, test_fn())
+
+    def test_cache_lifetime(self):
+        @Cached(lifetime=1)
+        def test_fn():
+            return random()
+
+        res_1 = test_fn()
+        sleep(2)
+        res_2 = test_fn()
+
+        self.assertNotEqual(res_1, res_2, msg='Cache was not updated')
