@@ -5,9 +5,11 @@ var CurrencySelector = React.createClass({
 
     change: function (event) {
         var value = event.target.value;
-
-        jupiter('select').pub(value);
         this.setState({value: value});
+
+        if (value != 'select') {
+            jupiter('select').pub(value);
+        }
     },
 
     render: function () {
@@ -41,9 +43,8 @@ var CurrencyItem = React.createClass({
 var MainComponent = React.createClass({
     getInitialState: function () {
         return {
-            main: '',
             currencies: [],
-            rates: []
+            rates: {}
         }
     },
 
@@ -60,14 +61,15 @@ var MainComponent = React.createClass({
 
     render: function () {
         var currencies = this.state.currencies;
+        var rates = this.state.rates;
 
         return (
             <div>
                 <CurrencySelector currencies={currencies}/>
 
                 <ul id="currency-list">
-                    {currencies.map(function (item) {
-                        return <CurrencyItem name={item} ratio="0"/>
+                    {Object.keys(rates).map(function (key) {
+                        return <CurrencyItem name={key} ratio={rates[key]}/>
                     })}
                 </ul>
             </div>
@@ -77,6 +79,11 @@ var MainComponent = React.createClass({
 
 var MainComponentMounted = React.render(<MainComponent />, document.getElementById("main"));
 
-jupiter('select').sub(function (arg) {
-    console.log('Selected item ' + arg)
+jupiter('select').sub(function (currency) {
+    fetch('/ratio/' + currency).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        MainComponentMounted.setState(data);
+    });
+
 });
