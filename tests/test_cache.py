@@ -11,3 +11,10 @@ class TestCache(TestCase):
         result = test_fn(1, 'foo', name='name')
 
         self.assertEqual(args_hash, result)
+
+    def test_cache_creation(self):
+        @Cached()
+        def test_fn():
+            return 3
+
+        self.assertEqual(3, test_fn())
