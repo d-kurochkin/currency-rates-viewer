@@ -5,15 +5,15 @@ def currencies():
     return ['EUR', 'JPY', 'KZT', 'RUB', 'UAH', 'USD']
 
 
-def currency_pairs(base):
+def _currency_pairs(base):
     if base not in currencies():
         raise ValueError("Unavailable currency")
 
     return ["'%s%s'" % (base, quote) for quote in currencies() if quote != base]
 
 
-def build_query(currency):
-    pairs = currency_pairs(currency)
+def _build_query(currency):
+    pairs = _currency_pairs(currency)
 
     return "select * from yahoo.finance.xchange where pair in (%s)" % ", ".join(pairs)
 
@@ -23,7 +23,7 @@ def get_rates(currency):
         raise ValueError("Unavailable currency")
 
     parameters = {
-        "q": build_query(currency),
+        "q": _build_query(currency),
         "env": "store://datatables.org/alltableswithkeys",
         "format": "json"
     }
