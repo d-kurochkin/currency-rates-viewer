@@ -1,5 +1,5 @@
 import flask
-import json
+from flask import jsonify
 import xchange
 
 app = flask.Flask(__name__)
@@ -16,10 +16,15 @@ def index():
     return flask.redirect(flask.url_for('static', filename='index.html'))
 
 
+@app.route("/list")
+def currencies():
+    return jsonify({'currencies': xchange.currencies()})
+
+
 @app.route("/ratio/<currency>")
 def ratio(currency):
     try:
-        return json.dumps({"ratio": CURRENCY_RATION[currency]})
+        return jsonify({"ratio": CURRENCY_RATION[currency]})
     except KeyError, e:
         flask.abort(400)
         # @todo: log it
