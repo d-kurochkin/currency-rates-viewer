@@ -44,7 +44,8 @@ var MainComponent = React.createClass({
     getInitialState: function () {
         return {
             currencies: [],
-            rates: {}
+            rates: {},
+            currentUpdate: 'Never'
         }
     },
 
@@ -67,6 +68,8 @@ var MainComponent = React.createClass({
             <div>
                 <CurrencySelector currencies={currencies}/>
 
+                <div>Current update: {this.state.currentUpdate} </div>
+
                 <ul id="currency-list">
                     {Object.keys(rates).map(function (key) {
                         return <CurrencyItem name={key} ratio={rates[key]}/>
@@ -79,11 +82,22 @@ var MainComponent = React.createClass({
 
 var MainComponentMounted = React.render(<MainComponent />, document.getElementById("main"));
 
-jupiter('select').sub(function (currency) {
+function updateRates(currency) {
     fetch('/ratio/' + currency).then(function (response) {
         return response.json();
     }).then(function (data) {
+        data.currentUpdate = new Date().toISOString();
         MainComponentMounted.setState(data);
     });
+}
 
+
+var interval;
+//@todo Think about request timeouts
+jupiter('select').sub(function (currency) {
+    updateRates(currency);
+
+    interval = setInterval(function () {
+        updateRates(currency);
+    }, 10000);
 });
