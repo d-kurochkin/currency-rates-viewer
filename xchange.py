@@ -1,5 +1,8 @@
+from requests import get
+
+
 def currencies():
-    return ['EUR', 'GPY', 'KZT', 'RUB', 'UAH', 'USD']
+    return ['EUR', 'JPY', 'KZT', 'RUB', 'UAH', 'USD']
 
 
 def currency_pairs(base):
@@ -15,8 +18,17 @@ def build_query(currency):
     return "select * from yahoo.finance.xchange where pair in (%s)" % ", ".join(pairs)
 
 
-def get_ratios(currency):
+def get_rates(currency):
     if currency not in currencies():
         raise ValueError("Unavailable currency")
 
-    pass
+    parameters = {
+        "q": build_query(currency),
+        "env": "store://datatables.org/alltableswithkeys",
+        "format": "json"
+    }
+
+    response = get("https://query.yahooapis.com/v1/public/yql", params=parameters).json()
+    rates = response.get("query", {}).get("results", {}).get("rate", [])
+
+    return {item['id']: item['Rate'] for item in rates}
