@@ -6,13 +6,13 @@ class Cached(object):
         self.lifetime = lifetime
         self.cache_data = {}
 
-    def __call__(self, fn):
+    def __call__(self, func):
         def cached_func(*args, **kwargs):
             key = self._convert_arguments_to_hash(args, kwargs)
             access_time = time.time()
 
             if not self._key_exist(key) or self._value_outdated(key, access_time):
-                result = fn(*args, **kwargs)
+                result = func(*args, **kwargs)
                 self._update_cache(key, result, access_time)
 
             return self.cache_data[key]['value']

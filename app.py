@@ -24,7 +24,7 @@ def currencies():
 @app.route("/ratio/<currency>")
 def ratio(currency):
     try:
-        return jsonify({"ratio": CURRENCY_RATION[currency]})
+        return jsonify({"ratio": xchange.get_rates(currency)})
     except KeyError, e:
         flask.abort(400)
         # @todo: log it

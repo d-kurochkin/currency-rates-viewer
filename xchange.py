@@ -30,7 +30,7 @@ def get_rates(currency):
         "format": "json"
     }
 
-    response = get("https://query.yahooapis.com/v1/public/yql", params=parameters).json()
-    rates = response.get("query", {}).get("results", {}).get("rate", [])
+    response = get("https://query.yahooapis.com/v1/public/yql", params=parameters)
+    rates = response.json().get("query", {}).get("results", {}).get("rate", [])
 
     return {item['id']: item['Rate'] for item in rates}
