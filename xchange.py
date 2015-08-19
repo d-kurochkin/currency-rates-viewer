@@ -1,4 +1,5 @@
 from requests import get
+from cache import Cached
 
 
 def currencies():
@@ -18,6 +19,7 @@ def _build_query(currency):
     return "select * from yahoo.finance.xchange where pair in (%s)" % ", ".join(pairs)
 
 
+@Cached(lifetime=60)
 def get_rates(currency):
     if currency not in currencies():
         raise ValueError("Unavailable currency")
