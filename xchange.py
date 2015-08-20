@@ -1,16 +1,14 @@
 from requests import get
 from cache import Cached
 
-
-def currencies():
-    return ['EUR', 'JPY', 'KZT', 'RUB', 'UAH', 'USD']
+CURRENCIES = ['EUR', 'JPY', 'KZT', 'RUB', 'UAH', 'USD']
 
 
 def _currency_pairs(base):
-    if base not in currencies():
+    if base not in CURRENCIES:
         raise ValueError("Unavailable currency")
 
-    return ["'%s%s'" % (base, quote) for quote in currencies() if quote != base]
+    return ["'%s%s'" % (base, quote) for quote in CURRENCIES if quote != base]
 
 
 def _build_query(currency):
@@ -21,7 +19,7 @@ def _build_query(currency):
 
 @Cached(lifetime=60)
 def get_rates(currency):
-    if currency not in currencies():
+    if currency not in CURRENCIES:
         raise ValueError("Unavailable currency")
 
     parameters = {
