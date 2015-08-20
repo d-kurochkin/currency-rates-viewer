@@ -94,7 +94,7 @@ var MainComponent = React.createClass({
                     </ul>
                 </div>
                 <div className="panel-footer">
-                    Current update: {moment(currentUpdate).format('MMMM Do YYYY, hh:mm:ss')}
+                    Current update: {moment(currentUpdate).format('MMMM Do YYYY, HH:mm:ss')}
                 </div>
             </div>
 
