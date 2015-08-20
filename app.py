@@ -15,7 +15,7 @@ def index():
 
 @app.route("/list")
 def currencies():
-    return jsonify({'currencies': xchange.currencies()})
+    return jsonify({'currencies': ['EUR', 'JPY', 'KZT', 'RUB', 'UAH', 'USD']})
 
 
 @app.route("/ratio/<currency>")
@@ -32,4 +32,4 @@ if __name__ == "__main__":
     formatter = logging.Formatter("%(asctime)s  %(levelname)s: %(message)s")
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
-    app.run(debug=True)
+    app.run(threaded=True, debug=True)
