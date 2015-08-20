@@ -7,6 +7,9 @@ npm i
 bower install
 ```
 
+# Run (required Python 2.7)
+
+`python app.ry`
 
 # ToDO
 
