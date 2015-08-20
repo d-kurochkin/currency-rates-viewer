@@ -13,14 +13,14 @@ bower install
 Required:
 
 * [x] Retrieving data from API
-* [ ] Retrieving data from server
+* [x] Retrieving data from server
 * [x] Add unit tests
 * [x] Add caching
 
 Optional:
 
 * [x] Improve validation
-* [ ] Add styles
+* [x] Add styles
 * [x] Add logging
 
 
