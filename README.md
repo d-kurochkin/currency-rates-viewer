@@ -9,7 +9,7 @@ bower install
 
 # Run (required Python 2.7)
 
-`python app.ry`
+`python app.py`
 
 # ToDO
 
