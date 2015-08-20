@@ -108,7 +108,7 @@ PubSub.subscribe('rates:get', function (msg, currency) {
     fetch('/ratio/' + currency).then(function (response) {
         return response.json();
     }).then(function (data) {
-        data.currentUpdate = new Date().toISOString();
+        data.currentUpdate = new Date();
 
         PubSub.publish('rates:update', data);
     });

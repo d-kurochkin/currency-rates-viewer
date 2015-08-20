@@ -19,3 +19,8 @@
 .currency-list span {
     margin-right: 10px;
 }
+
+.currency-list .label {
+    margin-right: 10px;
+    width: 100px;
+}
