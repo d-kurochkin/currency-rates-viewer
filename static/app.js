@@ -8,7 +8,7 @@ var CurrencySelector = React.createClass({
         this.setState({value: value});
 
         if (value != 'select') {
-            jupiter('select').pub(value);
+            PubSub.publish('base:set', value);
         }
     },
 
@@ -59,18 +59,25 @@ var MainComponent = React.createClass({
 
     componentDidMount: function () {
         //Save context to use setState
-        var main = this;
+        var component = this;
 
         fetch('/list').then(function (response) {
             return response.json();
         }).then(function (data) {
-            main.setState(data);
+            component.setState(data);
+        });
+
+        PubSub.subscribe('rates:update', function (msg, data) {
+            if (component.isMounted){
+                component.setState(data);
+            }
         });
     },
 
     render: function () {
         var currencies = this.state.currencies;
         var rates = this.state.rates;
+        var currentUpdate = this.state.currentUpdate;
 
         return (
             <div className="panel panel-default currency-panel">
@@ -87,7 +94,7 @@ var MainComponent = React.createClass({
                     </ul>
                 </div>
                 <div className="panel-footer">
-                    Current update: {this.state.currentUpdate}
+                    Current update: {moment(currentUpdate).format('MMMM Do YYYY, hh:mm:ss')}
                 </div>
             </div>
 
@@ -97,22 +104,32 @@ var MainComponent = React.createClass({
 
 var MainComponentMounted = React.render(<MainComponent />, document.getElementById("main"));
 
-function updateRates(currency) {
+PubSub.subscribe('rates:get', function (msg, currency) {
     fetch('/ratio/' + currency).then(function (response) {
         return response.json();
     }).then(function (data) {
         data.currentUpdate = new Date().toISOString();
-        MainComponentMounted.setState(data);
+
+        PubSub.publish('rates:update', data);
     });
-}
-
-
-var interval;
-//@todo Think about request timeouts
-jupiter('select').sub(function (currency) {
-    updateRates(currency);
-
-    interval = setInterval(function () {
-        updateRates(currency);
-    }, 10000);
 });
+
+
+(function(){
+    var baseCurrency;
+    var timeout;
+
+    PubSub.subscribe('base:set', function (msg, currency) {
+        clearTimeout(timeout);
+        baseCurrency = currency;
+        PubSub.publish('rates:get', currency);
+    });
+
+    PubSub.subscribe('rates:update', function () {
+        if (baseCurrency) {
+            timeout = setTimeout(function(){
+                PubSub.publish('rates:get', baseCurrency);
+            }, 10000);
+        }
+    });
+})();
