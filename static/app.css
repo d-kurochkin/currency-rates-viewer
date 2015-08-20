@@ -1,0 +1,21 @@
+#currency-selector {
+    margin-bottom: 10px;
+}
+
+.currency-panel {
+    margin: 10px;
+    width: 400px;
+}
+
+.currency-list {
+    margin: 10px;
+    list-style: none;
+}
+
+.currency-list li {
+    margin-bottom: 10px;
+}
+
+.currency-list span {
+    margin-right: 10px;
+}

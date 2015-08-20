@@ -16,10 +16,10 @@ var CurrencySelector = React.createClass({
         var currencies = this.props.currencies;
 
         return (
-            <section id="currency-selector">
-                <span>Base currency</span>
-                <select placeholder="add" value={this.state.value} onChange={this.change}>
-                    <option value="select">Select</option>
+            <section id="currency-selector" className="form-inline">
+                <label> Currency ratio viewer </label>
+                <select className="form-control pull-right" value={this.state.value} onChange={this.change}>
+                    <option value="select">Select currency</option>
                     {currencies.map(function (item) {
                         return <option value={item}>{item}</option>
                     })}
@@ -30,11 +30,19 @@ var CurrencySelector = React.createClass({
 });
 
 var CurrencyItem = React.createClass({
+    getBase: function () {
+        return this.props.name.slice(0, 3)
+    },
+    getQuote: function () {
+        return this.props.name.slice(3)
+    },
     render: function () {
         return (
-            <li>
-                <span>{this.props.name}</span> &nbsp;
-                <span>{this.props.ratio}</span> &nbsp;
+            <li className="row">
+                <span className="col-md-2">{this.getBase()}</span>
+                <span className="glyphicon glyphicon-arrow-right col-md-1"></span>
+                <span className="col-md-2">{this.getQuote()}</span>
+                <span className="label label-default col-md-3">{this.props.ratio}</span>
             </li>
         )
     }
@@ -65,17 +73,24 @@ var MainComponent = React.createClass({
         var rates = this.state.rates;
 
         return (
-            <div>
-                <CurrencySelector currencies={currencies}/>
+            <div className="panel panel-default currency-panel">
+                <div className="panel-heading">
+                    <CurrencySelector currencies={currencies}/>
+                </div>
+                <div className="panel-body">
 
-                <div>Current update: {this.state.currentUpdate} </div>
 
-                <ul id="currency-list">
-                    {Object.keys(rates).map(function (key) {
-                        return <CurrencyItem name={key} ratio={rates[key]}/>
-                    })}
-                </ul>
+                    <ul className="currency-list">
+                        {Object.keys(rates).map(function (key) {
+                            return <CurrencyItem name={key} ratio={rates[key]}/>
+                        })}
+                    </ul>
+                </div>
+                <div className="panel-footer">
+                    Current update: {this.state.currentUpdate}
+                </div>
             </div>
+
         );
     }
 });
